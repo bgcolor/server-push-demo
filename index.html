@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Server Pushing test</title>
+	<script type="text/javascript" src="jquery.js"></script>
+</head>
+<body>
+	<!-- <div id="test">click me.</div> -->
+	<p>See console.</p>
+	<script type="text/javascript">
+	   // document.getElementById('test').onclick = function() {
+	   //   xhr = new XMLHttpRequest();
+	   //   xhr.open("GET", "test.php", true);
+
+	   //   var old = '';
+	   //   xhr.onprogress = function(e) {
+	   //     console.log(e.currentTarget.responseText.replace(old, ''));
+	   //     old = e.currentTarget.responseText;
+	   //   }
+	   //   xhr.onreadystatechange = function() {
+	   //     if (xhr.readyState == 4) {
+	   //       console.log("Complete = " + xhr.responseText);
+	   //     }
+	   //   }
+	   //   xhr.send();
+	   // };
+	   $.ajax({
+	   	url:'test.php',
+	   	xhr: function(){
+	   		xhr = new XMLHttpRequest();
+	   		var old = '';
+	   		xhr.onloadstart = function(){
+	   			console.log('response start.');
+	   		}
+			xhr.onprogress = function(e) {
+				console.log(e.currentTarget.responseText.replace(old, ''));
+				old = e.currentTarget.responseText;
+			}
+			return xhr;
+	   	},
+	   	success: function(data) {
+	   		console.log('response end.');
+	   	}
+	   })
+	 </script>
+</body>
+</html>
